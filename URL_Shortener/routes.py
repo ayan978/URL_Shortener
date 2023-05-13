@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 short = Blueprint('short', __name__)
 
@@ -8,13 +8,13 @@ def redirect_to_url(shortened_url):
 
 @short.route('/')
 def index():
-    pass
+    return render_template('index.html')
 
 @short.route('/add_link', methods=['POST'])
 def add_link():
     pass
 
-@short.stats('/stats')
+@short.route('/stats')
 def stats():
     pass
 
