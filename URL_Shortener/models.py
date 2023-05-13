@@ -12,18 +12,18 @@ class Link(db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.shortened_url = self.short_link_generator()
+        self.short_url = self.short_link_generator()
 
     def short_link_generator(self):
         characters = string.digits + string.ascii_letters
-        shortened_url = ''.join(choices(characters, k=6))
+        short_url = ''.join(choices(characters, k=6))
 
-        link = self.query.filter_by(shortened_url=shortened_url).first()
+        link = self.query.filter_by(short_url=short_url).first()
 
         if link:
             return self.short_link_generator()
         
-        return shortened_url
+        return short_url
 
 
 

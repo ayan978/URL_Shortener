@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 from .extensions import db
-
+from .models import Link
 short = Blueprint('short', __name__)
 
 @short.route('/<short_url>')
