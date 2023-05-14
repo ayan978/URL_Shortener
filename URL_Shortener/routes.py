@@ -6,6 +6,8 @@ short = Blueprint('short', __name__)
 @short.route('/<short_url>')
 def redirect_to_url(short_url):
     link = Link.query.filter_by(short_url=short_url).first_or_404()
+    link.visits += 1
+    db.session.commit()
     return redirect(link.original_url)
 
 @short.route('/')
@@ -19,12 +21,13 @@ def add_link():
     db.session.add(link)
     db.session.commit()
 
-    return render_template('link_added.html', new_link=link.short_url, original_url=link.original_url)
+    return render_template('link_added.html', short_url=link.short_url, original_url=link.original_url)
 
 @short.route('/stats')
 def stats():
-    pass
+    links = Link.query.all()
+    return render_template('stats.html', links=links)
 
 @short.errorhandler(404)
 def page_not_found(e):
-    return '', 404
+    return '<h1>404 - Page not found</h1>', 404
