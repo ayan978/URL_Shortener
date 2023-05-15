@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect
 from .extensions import db
 from .models import Link
+from .auth import requires_auth
+
 short = Blueprint('short', __name__)
 
 @short.route('/<short_url>')
@@ -24,6 +26,7 @@ def add_link():
     return render_template('link_added.html', short_url=link.short_url, original_url=link.original_url)
 
 @short.route('/stats')
+@requires_auth
 def stats():
     links = Link.query.all()
     return render_template('stats.html', links=links)
